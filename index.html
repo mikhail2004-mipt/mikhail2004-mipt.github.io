@@ -19,15 +19,16 @@
     <title>My resume</title>
 </head>
 <body class="body">
-    <header class="header flex">
+    <header class="header header_theme_light flex theme">
         <div class="header__div">
             <h1 class="header__h1">Нарижный<br>Михаил<br>Гуру Алгосов</h1>
         </div>
         <img class="header__img" src="static/img/portret.jpg" alt="портрет">
     </header>
-    <main class="main">
+    <main class="main main_theme_light theme">
+        <div class="rain rain_disabled"></div>
         <div class="container">
-            <div class="block">
+            <div class="block block_theme_light theme">
                 <h2 class="block__h2">Опыт работы:</h2>
                 <ul class="block__ul">
                     <li>Победитель Всесибирской олимпиады школьников по программированию</li>
@@ -36,7 +37,7 @@
                 </ul>
                 <img src="static/img/work.jpeg" class="block__jpeg" alt="работа">
             </div>
-            <div class="block">
+            <div class="block block_theme_light theme">
                 <h2 class="block__h2">Навыки:</h2>
                 <ul class="block__ul">
                     <li>Очень быстро разбираюсь в новых алгосах</li>
@@ -45,7 +46,7 @@
                 </ul>
                 <img src="static/img/graph.MPEG4" class="block__gif" alt="гифка графа">
             </div>
-            <div class="block">
+            <div class="block block_theme_light theme">
                 <h2 class="block__h2">Интересы(рабочие и не только):</h2>
                 <ul class="block__ul">
                     <li>Изучение новых алгосов</li>
@@ -54,7 +55,7 @@
                 </ul>
                 <img src="static/img/volleyball.MPEG4" class="block__gif" alt="гифка волейбола">
             </div>
-            <div class="block">
+            <div class="block block_theme_light theme">
                 <h2 class="block__h2">Образование:</h2>
                 <ul class="block__ul">
                     <li>Среднее МБОУ ФМЛ №31</li>
@@ -63,8 +64,43 @@
                 <img src="static/img/me.jpg" class="block__jpg" alt="это я">
             </div>
         </div>
+        <div class="gallery-container">
+            <img class="gallery-container__image" src="static/img/image-Contest6-taskE.png" alt="Contest6-taskE">
+            <img class="gallery-container__image" src="static/img/image-Contest6-taskJ.png" alt="Contest6-taskJ">
+            <img class="gallery-container__image" src="static/img/image-Contest6-taskQ.png" alt="Contest6-taskQ">
+            <img class="gallery-container__image" src="static/img/image-Contest7-taskC.png" alt="Contest7-taskC">
+            <img class="gallery-container__image" src="static/img/image-Contest8-taskD.png" alt="Contest8-taskD">
+        </div>
+
+
+        <div class="popup popup_viewer">
+            <div class="popup__content">
+                <img class="popup__image">
+                <img class="popup__arrow-left" src="./static/img/arrow-left.png" alt="стрелочка влево">
+                <img class="popup__arrow-right" src="./static/img/arrow-right.png" alt="стрелочка вправо">
+            </div>
+        </div>
+
+        <div class="popup popup_form_feedback">
+            <div class="popup__container">
+                <form name="feedback" class="popup__form">
+                    <h2 class="popup__form-title">Форма обратной связи</h2>
+                    <fieldset class="popup__form-input-container">
+                        <input name="tel" id="tel-input" placeholder="Номер телефона" type="tel" class="popup__form-text-input" required minlength="2" maxlength="30">
+                        <span class="popup__form-error tel-input-error"></span>
+                        <input name="email" id="email-input" placeholder="Электронная почта" type="email" class="popup__form-text-input" required>
+                        <span class="popup__form-error email-input-error"></span>
+                        <input name="text" id="text-input" placeholder="Ваши пожелания" type="text" class="popup__form-text-input">
+                        <span class="popup__form-error text-input-error"></span>
+
+                    </fieldset>
+                    <input name="place-submit" type="submit" value="Отправить" class="button popup__form-submit-button">
+                </form>
+            </div>
+        </div>
+
     </main>
-    <footer class="footer flex">
+    <footer class="footer footer_theme_light flex theme">
         <ul>
             <li class="flex">
                 <div class="footer__div">
@@ -75,15 +111,34 @@
             </li>
             <li class="flex">
                 <div class="footer__div">
-                    <h2 class="footer__h2">Телефон: <a href="tel:+79823207239" class="telephone-link">+79823207239</a></h2>
+                    <h2 class="footer__h2">Телефон: <a href="tel:+79823207239" class="telephone-link telephone-link_theme_light theme">+79823207239</a></h2>
                 </div>
             </li>
             <li class="flex">
                 <div class="footer__div">
-                    <h2 class="footer__h2">Почта: <a href="mailto:mikhail.2004@mail.ru" class="mail-link">mikhail.2004@mail.ru</a></h2>
+                    <h2 class="footer__h2">Почта: <a href="mailto:mikhail.2004@mail.ru" class="mail-link mail-link_theme_light theme">mikhail.2004@mail.ru</a></h2>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="footer__div">
+                    <h2 class="footer__h2" id="rain-text">Дождь:&nbsp&nbsp</h2>
+                    <button class="footer__rain-button footer__rain-button_theme_light theme"><p class="footer__rain-button-p">Нажми и будет дождь</p></button>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="footer__div">
+                    <h2 class="footer__h2">Темная тема:&nbsp&nbsp</h2>
+                    <button class="footer__theme-button footer__theme-button_theme_light theme"><p class="footer__theme-button-p">Нажми и будет темная тема</p></button>
+                </div>
+            </li>
+            <li class="flex">
+                <div class="footer__div">
+                    <h2 class="footer__h2">Связаться со мной:&nbsp&nbsp</h2>
+                    <button class="footer__feedback-button footer__feedback-button_theme_light theme"><p class="footer__feedback-button-p">Нажми для связи со мной</p></button>
                 </div>
             </li>
         </ul>
     </footer>
+    <script src="./src/index.js"></script>
 </body>
 </html>
