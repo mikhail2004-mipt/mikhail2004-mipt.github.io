@@ -6,11 +6,10 @@ const rainText = document.querySelector(".footer__rain-button-p")
 
 const elementsWithTheme = document.querySelectorAll(".theme");
 
-let firstTime = true;
-if (firstTime) {
+if (localStorage["notFirstTime"] == undefined) {
     setTimeout(function() {
         alert("ку");
-        firstTime = false;
+        localStorage["notFirstTime"] = true;
     }, 30000);
 }
 function changeConditionRain() {
@@ -129,9 +128,24 @@ const parameters = {
     errorClass: 'popup__form-error_active'
 }
 
+function uncorrectEmail(inputElement) {
+    const inputValue = inputElement.value.split(".");
+    if (inputValue.length <= 1) {
+        return true;
+    }
+    const emailEnd = inputValue.pop();
+    return emailEnd.length < 2 || emailEnd.length > 6 || !(/[a-z]/i.test(emailEnd));
+}
+
+function uncorrectTel(inputElement) {
+    const inputValue = inputElement.value.split("+");
+    const telEnd = inputValue.pop();
+    return Number.isNaN(Number(telEnd)) || telEnd.length !== 11 || (inputValue.length === 1 && inputValue[0] !== "") || inputValue.length > 1;
+}
+
 function hasInvalidInput(inputsList) {
     return inputsList.some(function(inputElement) {
-        return !inputElement.validity.valid;
+        return !inputElement.validity.valid || (inputElement.type === "email" && uncorrectEmail(inputElement)) || (inputElement.type === "tel" && uncorrectTel(inputElement));
     });
 }
 
@@ -150,6 +164,14 @@ function showInputError(formElement, inputElement, errorMessage, inputErrorClass
     inputElement.classList.add(inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(errorClass);
+    if (inputElement.type === "email" && uncorrectEmail(inputElement)) {
+        inputElement.classList.add(inputErrorClass);
+        errorElement.textContent = "Некорректный email";
+    }
+    if ((inputElement.type === "tel" && uncorrectTel(inputElement))) {
+        inputElement.classList.add(inputErrorClass);
+        errorElement.textContent = "Некорректный телефон";
+    }
 }
 
 function hideInputError(formElement, inputElement, inputErrorClass, errorClass) {
@@ -173,7 +195,7 @@ function enableValidation(parameters) {
         inputsList.forEach(function(inputElement) {
             inputElement.addEventListener('input', function(evt) {
                 toggleButton(inputsList, buttonElement, parameters.inactiveButtonClass);
-                if (!inputElement.validity.valid) {
+                if (!inputElement.validity.valid || (inputElement.type === "email" && uncorrectEmail(inputElement)) || (inputElement.type === "tel" && uncorrectTel(inputElement))) {
                     showInputError(formElement, inputElement, inputElement.validationMessage, parameters.inputErrorClass, parameters.errorClass);
                 } else {
                     hideInputError(formElement, inputElement, parameters.inputErrorClass, parameters.errorClass);
@@ -186,6 +208,7 @@ function enableValidation(parameters) {
 const feedbackPopup = document.querySelector(".popup_form_feedback");
 const feedbackForm = feedbackPopup.querySelector(".popup__form");
 const feedbackButton = document.querySelector(".footer__feedback-button");
+const submitButton = feedbackPopup.querySelector(".popup__form-submit-button")
 
 feedbackButton.addEventListener('click', function (evt) {
     openPopup(feedbackPopup);
@@ -193,10 +216,23 @@ feedbackButton.addEventListener('click', function (evt) {
 
 enableValidation(parameters);
 
-feedbackForm.addEventListener('submit', function(evt) {
+function showLoading() {
+    submitButton.value = "Отправляется..."
+}
+
+function success() {
+    submitButton.value = "Успешная отправка!"
+}
+
+function hideLoading() {
+    submitButton.value = "Отправить"
+}
+
+feedbackForm.addEventListener('submit', function() {
     const telInput = feedbackPopup.querySelector(".popup__form-text-input[name='tel']");
     const emailInput = feedbackPopup.querySelector(".popup__form-text-input[name='email']");
     const textInput = feedbackPopup.querySelector(".popup__form-text-input[name='text']");
+    showLoading()
     fetch("", {
         method: "POST",
         body: JSON.stringify({
@@ -206,9 +242,14 @@ feedbackForm.addEventListener('submit', function(evt) {
         })
     })
         .then(function(res) {
-            closePopup(feedbackPopup);
+            setTimeout(success, 500);
+            setTimeout(function () {
+                closePopup(feedbackPopup);
+                hideLoading()
+            }, 1000);
         })
         .catch(function (err) {
             console.log(err);
         })
-});
+})
+
